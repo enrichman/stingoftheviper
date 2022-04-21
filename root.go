@@ -43,5 +43,5 @@ func bindRootFlags(flags, persistentFlags *pflag.FlagSet, config *Config) {
 	flags.StringVarP(&config.Name, "name", "n", config.Name, "What's your name?")
 
 	// this flag will be persisted trough the sub-commands
-	persistentFlags.IntVarP(&config.Number, "number", "c", config.Number, "Which is your favorite number?")
+	persistentFlags.IntVar(&config.Number, "number", config.Number, "Which is your favorite number?")
 }

@@ -9,10 +9,10 @@ import (
 
 func NewStingCommand(config *Config) *cobra.Command {
 	// get the address of your sub-command config, or you will not be able to rewrite its values
-	execConfig := &config.StingConfig
+	stingConfig := &config.StingConfig
 
 	// Define our command
-	execCmd := &cobra.Command{
+	stingCmd := &cobra.Command{
 		Use:   "sting",
 		Short: "a small subcommand",
 
@@ -25,9 +25,9 @@ func NewStingCommand(config *Config) *cobra.Command {
 	}
 
 	// bind the root flags and persistenceFlags to the config
-	bindStingFlags(execCmd.Flags(), execCmd.PersistentFlags(), execConfig)
+	bindStingFlags(stingCmd.Flags(), stingCmd.PersistentFlags(), stingConfig)
 
-	return execCmd
+	return stingCmd
 }
 
 func bindStingFlags(flags, persistentFlags *pflag.FlagSet, config *StingConfig) {

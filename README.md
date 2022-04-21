@@ -1,12 +1,59 @@
-# Sting of the Viper
+# Sting of the Viper (with subcommands)
 
-This demonstrates how to integrate spf13/cobra with spf13/viper such command-line flags have the highest precedence,
-then environment variables, then config file values, and then defaults set on command-line flags.
+This fork of [carolynvs/stingoftheviper](https://github.com/carolynvs/stingoftheviper) shows an example on how to integrate flags, environment variables and such with different subcommands.
 
-📬 Read the accompanying blog post that explains this example code. [Sting of the Viper: Getting Cobra and Viper to work together](https://carolynvanslyck.com/blog/2020/08/sting-of-the-viper/)
+Please have a look at her awesome blog post about this: [Sting of the Viper: Getting Cobra and Viper to work together](https://carolynvanslyck.com/blog/2020/08/sting-of-the-viper/)
 
-It also handles binding command-line flags that have dashes properly to environment variables with underscores. 
-For example, `--favorite-color` is set with the environment variable `FAVORITE_COLOR`.
+# Differences from the original app
+
+The idea was to have a simple app with also a subcommand, so there is the `stingoftheviper` command, and the `stingoftheviper sting` subcommand.
+
+The `main.go` and `flags.go` files have basically the same original content, I've moved the root and sting commands into their own file, so that it was clearer to see the differences.
+
+The `config.go` file contains the struct that will hold the configuration, and it also contains the default values.
+
+```go
+type Config struct {
+	Name   string
+	Number int
+
+	StingConfig StingConfig
+}
+
+type StingConfig struct {
+	Name string
+}
+```
+
+Before initializing the rootCmd you have to initialize your empty Config, and bind it to the flags with the `bindRootFlags` func:
+
+```go
+func bindRootFlags(flags, persistentFlags *pflag.FlagSet, config *Config) {
+	flags.StringVarP(&config.Name, "name", "n", config.Name, "What's your name?")
+
+	// this flag will be persisted trough the sub-commands
+	persistentFlags.IntVarP(&config.Number, "number", "c", config.Number, "Which is your favorite number?")
+}
+```
+
+I've extended the original work with also the persistentFlags.
+
+Then, when creating the stingCmd just pass to it the Config:
+
+```go
+rootCmd.AddCommand(NewStingCommand(&config))
+```
+
+so that it will be possible for it to do the same, with the `bindStingFlags` func:
+
+```go
+func bindStingFlags(flags, persistentFlags *pflag.FlagSet, config *StingConfig) {
+	flags.StringVarP(&config.Name, "name", "n", config.Name, "Who do you want to sting?")
+}
+```
+
+Note: this is just a way to do this. :)
+
 
 # Try it out
 

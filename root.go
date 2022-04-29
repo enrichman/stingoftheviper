@@ -26,7 +26,7 @@ func NewRootCommand() *cobra.Command {
 			out := cmd.OutOrStdout()
 
 			// Print the final resolved value from binding cobra flags and viper config
-			fmt.Fprintln(out, "Your favorite number is:", config.Number)
+			fmt.Fprintln(out, "Verbosity is set to:", config.Verbose)
 			fmt.Fprintln(out, "Your name is:", config.Name)
 		},
 	}
@@ -43,5 +43,5 @@ func bindRootFlags(flags, persistentFlags *pflag.FlagSet, config *Config) {
 	flags.StringVarP(&config.Name, "name", "n", config.Name, "What's your name?")
 
 	// this flag will be persisted trough the sub-commands
-	persistentFlags.IntVar(&config.Number, "number", config.Number, "Which is your favorite number?")
+	persistentFlags.IntVarP(&config.Verbose, "verbose", "v", config.Verbose, "Set verbosity level")
 }

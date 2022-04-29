@@ -19,7 +19,8 @@ func NewStingCommand(config *Config) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			out := cmd.OutOrStdout()
 
-			fmt.Fprintln(out, "Your favorite number is:", config.Number)
+			fmt.Fprintln(out, "Verbosity is set to:", config.Verbose)
+			fmt.Fprintln(out, "You want to name:", config.Name)
 			fmt.Fprintln(out, "You want to sting:", config.StingConfig.Name)
 		},
 	}

@@ -1,8 +1,8 @@
 package main
 
 type Config struct {
-	Name   string
-	Number int
+	Verbose int
+	Name    string
 
 	StingConfig StingConfig
 }
@@ -13,8 +13,7 @@ type StingConfig struct {
 
 func NewConfig() Config {
 	return Config{
-		Number: 42,
-		Name:   "default_name",
+		Name: "default_name",
 
 		StingConfig: StingConfig{
 			Name: "default_sting_name",
